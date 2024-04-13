@@ -1,18 +1,17 @@
-import os, sys
-import ROOT
+
+import matplotlib.pyplot as plt
 import pandas as pd
 
-# Загрузка данных из txt файлов
-de2 = pd.read_csv('DATA_TXT/RUN010_dE2.txt', sep='\s+', header=None)
-e5 = pd.read_csv('DATA_TXT/RUN010_E5.txt', sep='\s+', header=None)
+# Считываем новый файл
+df = pd.read_csv('DATA_TXT_CLEAN/RUN010_dE2E5c.txt', sep='\s+', header=None, names=['x', 'y', 'z'])
 
-# Создание гистограммы
-h = ROOT.TH1F('h', 'h', 100, 0, 100)
+# Создаем гистограмму с 8000 бинов для каждой оси
+plt.hist2d(df['x'], df['y'], bins=6000, cmap='hot')
 
-# Заполнение гистограммы данными
-for i in range(len(de2)):
-    h.Fill(de2.iloc[i][0], e5.iloc[i][0])
+# Добавляем подписи осей и заголовок
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Histogram')
 
-# Отрисовка гистограммы
-c = ROOT.TCanvas('c', 'c')
-h.Draw()
+# Отображаем гистограмму
+plt.show()
